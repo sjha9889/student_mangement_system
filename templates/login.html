@@ -24,12 +24,7 @@
                      <div class="login-right-wrap">
                         <h1>Login</h1>
                         <p class="account-subtitle">Access to our dashboard</p>
-                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                        <strong>Holy guacamole!</strong> You should check in on some of those fields below.
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                         </button>
-                        </div>
+
                         <form action="{% url 'doLogin' %}" method="post">
                            {% csrf_token %}
                            <div class="form-group">

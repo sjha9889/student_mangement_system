@@ -5,6 +5,7 @@ from app.EmailBackEnd import EmailBackEnd
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect
 from app.models import CustomUser
+
 @csrf_protect
 def BASE(request):
     return render(request, 'base.html')
@@ -32,23 +33,22 @@ def doLogin(request):
         else:
             messages.error(request, 'Email and Password Are Invalid!')
             return redirect('login')
-
+    else:
+        # If the request method is not POST, redirect to the login page
+        return redirect('login')
 
 def doLogout(request):
     logout(request)
     return redirect('login')
 
-
 @login_required(login_url='/')
 def PROFILE(request):
-    user = CustomUser.objects.get(id = request.user.id)
-
+    user = CustomUser.objects.get(id=request.user.id)
 
     context = {
-        "user":user,
+        "user": user,
     }
-    return render(request,'profile.html',context)
-
+    return render(request, 'profile.html', context)
 
 @login_required(login_url='/')
 def PROFILE_UPDATE(request):
@@ -66,12 +66,12 @@ def PROFILE_UPDATE(request):
             customuser.first_name = first_name
             customuser.last_name = last_name
 
-            if password != None and password != "":
+            if password is not None and password != "":
                 customuser.set_password(password)
-            if profile_pic != None and profile_pic != "":
+            if profile_pic is not None and profile_pic != "":
                 customuser.profile_pic = profile_pic
             customuser.save()
-            messages.success(request, 'Your Profile Updated Successfully !')
+            messages.success(request, 'Your Profile Updated Successfully!')
             return redirect('profile')
         except:
             messages.error(request, 'Failed To Update Your Profile')
